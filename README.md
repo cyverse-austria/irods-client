@@ -2,6 +2,7 @@
 
 This repository provides a Docker image to run the iRODS (Integrated Rule-Oriented Data System) command line client (iCommands) version **4.3.x** on Ubuntu 22.04.  
 It allows you to connect to an iRODS server from outside your local environment using environment variables to configure your connection.
+It can also deploy an iRODS REST API that can be queried for various tasks.
 
 ---
 
@@ -11,6 +12,7 @@ It allows you to connect to an iRODS server from outside your local environment 
 - iRODS iCommands version 4.3.x installed via the official iRODS apt repository
 - Dynamically generates `irods_environment.json` from environment variables at container start
 - Interactive bash shell with iRODS commands ready to use
+- Java REST API based on Javalin library for triggering specific iRODS actions
 
 ---
 
@@ -34,12 +36,23 @@ docker build -t irods-client-slim .
 ### Run the Docker Container 
 Run the container with your iRODS server credentials passed via environment variables:
 
+- Option 1: To get into the interactive shell with access to the iRODS server:
 ```bash
 docker run -it \
   -e IRODS_HOST=irods.ies.example.com \
   -e IRODS_USER_NAME=your_username \
   -e IRODS_ZONE_NAME=your_zone \
   irods-client-slim
+```
+
+- Option 2: To start the REST API - the same command as before with the argument **api**
+
+```bash
+docker run -it \
+  -e IRODS_HOST=irods.ies.example.com \
+  -e IRODS_USER_NAME=your_username \
+  -e IRODS_ZONE_NAME=your_zone \
+  irods-client-slim api
 ```
 
 ### Authenticate

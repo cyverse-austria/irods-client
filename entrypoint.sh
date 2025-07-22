@@ -14,5 +14,9 @@ echo "Generated /root/.irods/irods_environment.json:"
 cat /root/.irods/irods_environment.json
 echo ""
 
-# Start interactive shell
-exec /bin/bash
+# Start interactive shell or java app
+if [ $1 == "api" ]; then
+    exec java -jar irods-client.jar irods-client-config.yml
+else
+    exec /bin/bash
+fi
