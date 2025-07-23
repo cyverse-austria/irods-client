@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     gnupg \
     lsb-release \
-    bash
+    bash \
+    openjdk-17-jdk
 
 # Add iRODS repo key and repo
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - && \
@@ -19,6 +20,12 @@ RUN apt-get update && apt-get install -y irods-runtime irods-icommands && rm -rf
 RUN mkdir -p /root/.irods
 
 COPY entrypoint.sh /entrypoint.sh
+
+COPY target/irods-client.jar /irods-client.jar
+COPY src/main/resources/irods-client-config.yml /irods-client-config.yml
+
 RUN chmod +x /entrypoint.sh
+
+EXPOSE 7000
 
 ENTRYPOINT ["/entrypoint.sh"]
